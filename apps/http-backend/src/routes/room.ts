@@ -25,23 +25,26 @@ roomRouter.post('/', middleware, async (req, res) => {
         });
         return
     }
+
+    // @ts-ignore
+    const userId = req.userId;
     try {
         const room = await prismaClient.room.create({
             data: {
                 slug: data.data.slug,
-                adminId: data.data.adminId,
+                adminId: userId,
             }
         })
-        if (!room) {
+
+        res.json({ message: "Room created", roomId: room.id });
+    }
+    catch (e) {
+        if ((e as any).code === 'P2002') {
             res.json({
                 message: "Room already exists"
             })
             return
         }
-
-        res.json({ message: "Room created", room });
-    }
-    catch (e) {
         res.json({
             message: "Something went wrong"
         })

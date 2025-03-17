@@ -25,13 +25,15 @@ authRouter.post('/signup', async (req, res) => {
                 name: data.data.name,
             }
         })
-        if (!user) {
+
+        res.json({ message: "User created" });
+    } catch (e) {
+        if ((e as any).code === 'P2002') {
             res.json({
                 message: "User already exists"
             })
+            return
         }
-        res.json({ message: "User created" });
-    } catch (e) {
         res.json({
             message: "Something went wrong"
         })
