@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { authRouter } from './routes/auth';
 import { roomRouter } from './routes/room';
+import { chatRouter } from './routes/chat';
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use('/api/auth', authRouter);
 app.use('/api/room', roomRouter);
-// app.use('/api/chat', authRouter);
+app.use('/api/chat', chatRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
